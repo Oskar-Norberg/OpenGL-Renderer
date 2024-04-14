@@ -39,6 +39,8 @@ void quit(GLFWwindow* window);
 void setLights(Shader& shader, DirectionalLight& directionalLight, vector<PointLight*> pointLights, vector<Spotlight*> spotlights);
 void setCameraMatrices(vector<Shader*> shaders);
 
+void setWindShaderUniforms(Shader* shader);
+
 void processInput(GLFWwindow* window);
 
 //Callbacks
@@ -106,12 +108,14 @@ void run(GLFWwindow* window) {
 
 	Shader textureShader("assets/shaders/texture/texture.vs", "assets/shaders/texture/texture.fs");
 	Shader multipleLightsShader("assets/shaders/multipleLights/multipleLights.vs", "assets/shaders/multipleLights/multipleLights.fs");
+	Shader grassShader("assets/shaders/grass/grass.vs", "assets/shaders/grass/grass.fs");
 
 	multipleLightsShader.use();
 	multipleLightsShader.setFloat("material.shininess", 1.0f);
 
 	shaders.push_back(&textureShader);
 	shaders.push_back(&multipleLightsShader);
+	shaders.push_back(&grassShader);
 
 	Model testModel("assets/models/testScene/testScene.obj");
 	Object testObject(glm::vec3(0.0f), &testModel, &multipleLightsShader);
@@ -131,6 +135,16 @@ void run(GLFWwindow* window) {
 	spotlights.push_back(&spotlight);
 	opaqueObjects.push_back(&spotlight);
 
+	Model grassModel("assets/models/grass/grass.obj");
+	Object grass(glm::vec3(0.0f, 1.0f, -5.0f), &grassModel, &grassShader);
+	Object grassTwo(glm::vec3(-5.0f, 1.0f, -2.5f), &grassModel, &grassShader);
+	Object grassThree(glm::vec3(-4.0f, 1.0f, 0.0f), &grassModel, &grassShader);
+	Object grassFour(glm::vec3(2.0f, 1.0f, -3.0f), &grassModel, &grassShader);
+	opaqueObjects.push_back(&grass);
+	opaqueObjects.push_back(&grassTwo);
+	opaqueObjects.push_back(&grassThree);
+	opaqueObjects.push_back(&grassFour);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -145,6 +159,7 @@ void run(GLFWwindow* window) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		setCameraMatrices(shaders);
+		setWindShaderUniforms(&grassShader);
 
 		pointlight.setPosition(glm::vec3(sin(currentFrame * 2.0f) * 5.0f, 0.0f, 0.0f));
 
@@ -231,6 +246,14 @@ void setCameraMatrices(vector<Shader*> shaders) {
 		(*shaders[i]).setMat4("view", camera.getViewMatrix());
 		(*shaders[i]).setVec3("viewPos", camera.getPosition());
 	}
+}
+
+void setWindShaderUniforms(Shader* shader){
+	(*shader).use();
+	(*shader).setFloat("time", float(glfwGetTime()));
+	(*shader).setFloat("windSpeed", 1.0f);
+	(*shader).setFloat("windStrength", 0.5f);
+	
 }
 
 void processInput(GLFWwindow* window)
