@@ -50,6 +50,7 @@ public:
 	Spotlight* createSpotlight(glm::vec3 position, glm::vec3 direction, float cutoff, float outerCutoff, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
 		Spotlight* s = new Spotlight(position, direction, cutoff, outerCutoff, ambient, diffuse, specular, constant, linear, quadratic);
 		spotlights.push_back(s);
+		setLights();
 		return s;
 	}
 
