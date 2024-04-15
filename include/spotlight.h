@@ -13,6 +13,10 @@ public:
 		this->outerCutoff = glm::cos(glm::radians(outerCutoff));
 	}
 
+	void getPosition(glm::vec3 position) {
+		this->position = position;
+	}
+
 	glm::vec3 getPosition() {
 		return this->position;
 	}
