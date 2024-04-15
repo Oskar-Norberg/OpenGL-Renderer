@@ -14,7 +14,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-enum UNIFORM_TYPES { INT, FLOAT, VEC3, VEC4, MAT4 };
+enum UNIFORM_TYPES { INT, FLOAT, VEC3, MAT4 };
 
 struct CustomUniformVariable {
     UNIFORM_TYPES type;
