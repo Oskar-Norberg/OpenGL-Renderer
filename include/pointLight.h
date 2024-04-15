@@ -10,7 +10,7 @@ public:
 		this->position = position;
 	}
 
-	glm::vec3 setPosition(glm::vec3 position) {
+	void setPosition(glm::vec3 position) {
 		this->position = position;
 	}
 
