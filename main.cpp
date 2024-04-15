@@ -38,8 +38,6 @@ GLFWwindow* initializeOpenGL();
 void run(GLFWwindow* window);
 void quit(GLFWwindow* window);
 
-void setWindShaderUniforms(Shader* shader);
-
 void processInput(GLFWwindow* window);
 
 //Callbacks
@@ -101,7 +99,11 @@ void run(GLFWwindow* window) {
 	Shader* multipleLightsShader = scene.createShader("assets/shaders/multipleLights/multipleLights.vs", "assets/shaders/multipleLights/multipleLights.fs");
 	(*multipleLightsShader).use();
 	(*multipleLightsShader).setFloat("material.shininess", 1.0f);
+
 	Shader* grassShader = scene.createShader("assets/shaders/grass/grass.vs", "assets/shaders/grass/grass.fs");
+	(*grassShader).use();
+	(*grassShader).setFloat("windSpeed", 1.0f);
+	(*grassShader).setFloat("windStrength", 0.5f);
 
 	Object* testSceneObject = scene.createOpaqueObject("assets/models/testScene/testScene.obj", glm::vec3(0.0f), multipleLightsShader);
 
@@ -168,6 +170,10 @@ void run(GLFWwindow* window) {
 		lastFrame = currentFrame;
 
 		processInput(window);
+
+		// Custom shaders
+		(*grassShader).use();
+		(*grassShader).setFloat("time", float(glfwGetTime()));
 
 		(*pointlight).setPosition(glm::vec3(sin(currentFrame * 2.0f) * 5.0f, 0.0f, 0.0f));
 		scene.setLights();
