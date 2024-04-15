@@ -22,6 +22,8 @@ public:
     // ------------------------------------------------------------------------
     Shader(std::string vertexPath, std::string fragmentPath)
     {
+        this->vertexPath = vertexPath; 
+        this->fragmentPath = fragmentPath;
         // 1. retrieve the vertex/fragment source code from filePath
         std::string vertexCode;
         std::string fragmentCode;
