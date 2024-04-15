@@ -33,6 +33,11 @@ public:
 		return shaderManager.createShader(vertexPath, fragmentPath);
 	}
 
+	void draw(Camera* camera) {
+		glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		shaderManager.setCameraMatrices(camera);
+		objectHandler.draw();
 	}
 
 	PointLight* createPointLight(glm::vec3 position, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
