@@ -14,6 +14,7 @@
 
 #include "include/shaderManager.h"
 #include "include/modelLoader.h"
+#include "include/objectHandler.h"
 
 
 #include "include/pointLight.h"
@@ -96,16 +97,50 @@ GLFWwindow* initializeOpenGL() {
 void run(GLFWwindow* window) {
 	ShaderManager shaderManager;
 	ModelLoader modelLoader;
+	ObjectHandler objectHandler;
 
+	vector<PointLight*> pointLights;
+	vector<Spotlight*> spotlights;
 
 	DirectionalLight sun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f), 1.0f, 0.09f, 0.032f);
+
+	Shader* textureShader = shaderManager.createShader("assets/shaders/texture/texture.vs", "assets/shaders/texture/texture.fs");
+	Shader* multipleLightsShader = shaderManager.createShader("assets/shaders/multipleLights/multipleLights.vs", "assets/shaders/multipleLights/multipleLights.fs");
+	(*multipleLightsShader).use();
+	(*multipleLightsShader).setFloat("material.shininess", 1.0f);
+	Shader* grassShader = shaderManager.createShader("assets/shaders/grass/grass.vs", "assets/shaders/grass/grass.fs");
+
+	Model* testSceneModel = modelLoader.loadModel("assets/models/testScene/testScene.obj");
+	Object* testSceneObject = objectHandler.createOpaqueObject(glm::vec3(0.0f), testSceneModel, multipleLightsShader);
+
+	Model* grassModel = modelLoader.loadModel("assets/models/grass/grass.obj");
+	Object* grassObject = objectHandler.createOpaqueObject(glm::vec3(0.0f, 1.0f, -5.0f), grassModel, grassShader);
+	Object* grassObjectTwo = objectHandler.createOpaqueObject(glm::vec3(-5.0f, 1.0f, -2.5f), grassModel, grassShader);
+	Object* grassObjectThree = objectHandler.createOpaqueObject(glm::vec3(-4.0f, 1.0f, 0.0f), grassModel, grassShader);
+	Object* grassObjectFour = objectHandler.createOpaqueObject(glm::vec3(2.0f, 1.0f, -3.0f), grassModel, grassShader);
+
+	Model* pointLightModel = modelLoader.loadModel("assets/models/lightBulb/lightBulb.obj");
+	PointLight pointlight(glm::vec3(0.0f, 5.0f, 0.0f), pointLightModel, textureShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
+	pointLights.push_back(&pointlight);
+
+	PointLight pointlightTwo(glm::vec3(0.0f, 0.75f, 5.0f), pointLightModel, textureShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
+	pointLights.push_back(&pointlightTwo);
+
+
+	Model* spotlightModel = modelLoader.loadModel("assets/models/spotlight/spotlight.obj");
+	Spotlight spotlight(glm::vec3(-4.0f, 8.0f, 0.0f), spotlightModel, textureShader, glm::vec3(0.0f, -1.0f, 0.0f), 12.5f, 15.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
+	Object* spotlightObject = objectHandler.createOpaqueObject(spotlight.getPosition(), spotlightModel, textureShader);
+	spotlights.push_back(&spotlight);
+
+	glm::vec4 backgroundColor(0.4f, 0.4f, 0.4f, 1.0f);
+
+	/*
 	vector<PointLight*> pointLights;
 	vector<Spotlight*> spotlights;
 
 	vector<Object*> opaqueObjects;
 	vector<Object*> transparentObjects;
 
-	glm::vec4 backgroundColor(0.4f, 0.4f, 0.4f, 1.0f);
 
 	Shader* textureShader = shaderManager.createShader("assets/shaders/texture/texture.vs", "assets/shaders/texture/texture.fs");
 	Shader* multipleLightsShader = shaderManager.createShader("assets/shaders/multipleLights/multipleLights.vs", "assets/shaders/multipleLights/multipleLights.fs");
@@ -142,6 +177,7 @@ void run(GLFWwindow* window) {
 	opaqueObjects.push_back(&grassTwo);
 	opaqueObjects.push_back(&grassThree);
 	opaqueObjects.push_back(&grassFour);
+	*/
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -158,15 +194,12 @@ void run(GLFWwindow* window) {
 
 		shaderManager.setCameraMatrices(&camera);
 
-		pointlight.setPosition(glm::vec3(sin(currentFrame * 2.0f) * 5.0f, 0.0f, 0.0f));
+		//pointlight.setPosition(glm::vec3(sin(currentFrame * 2.0f) * 5.0f, 0.0f, 0.0f));
 
 		shaderManager.setLights(sun, pointLights, spotlights);
 		shaderManager.setWindShaderUniforms(grassShader);
 
-		for (size_t i = 0; i < opaqueObjects.size(); i++)
-		{
-			(*opaqueObjects[i]).draw();
-		}
+		objectHandler.draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
