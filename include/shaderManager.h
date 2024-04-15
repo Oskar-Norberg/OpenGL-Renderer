@@ -22,7 +22,7 @@ public:
 	}
 
 	Shader* createShader(string vertexPath, string fragmentPath) {
-		Shader* tmp = new Shader(vertexPath.c_str(), fragmentPath.c_str());
+		Shader* tmp = new Shader(vertexPath, fragmentPath);
 		shaders.push_back(tmp);
 		return tmp;
 	}
