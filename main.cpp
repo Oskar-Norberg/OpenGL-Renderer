@@ -38,7 +38,6 @@ void run(GLFWwindow* window);
 void quit(GLFWwindow* window);
 
 void setLights(Shader& shader, DirectionalLight& directionalLight, vector<PointLight*> pointLights, vector<Spotlight*> spotlights);
-void setCameraMatrices(vector<Shader*> shaders);
 
 void setWindShaderUniforms(Shader* shader);
 
@@ -154,12 +153,7 @@ void run(GLFWwindow* window) {
 		glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		(*textureShader).use();
-		(*textureShader).setMat4("projection", camera.getProjectionMatrix());
-		(*textureShader).setMat4("view", camera.getViewMatrix());
-		(*textureShader).setVec3("viewPos", camera.getPosition());
-
-		setWindShaderUniforms(grassShader);
+		shaderManager.setCameraMatrices(&camera);
 
 		pointlight.setPosition(glm::vec3(sin(currentFrame * 2.0f) * 5.0f, 0.0f, 0.0f));
 
@@ -235,16 +229,6 @@ void setLights(Shader& shader, DirectionalLight& directionalLight, vector<PointL
 		shader.setFloat(lightShaderLocation + "constant", tmpSpotLight.getConstant());
 		shader.setFloat(lightShaderLocation + "linear", tmpSpotLight.getLinear());
 		shader.setFloat(lightShaderLocation + "quadratic", tmpSpotLight.getQuadratic());
-	}
-}
-
-void setCameraMatrices(vector<Shader*> shaders) {
-	for (size_t i = 0; i < shaders.size(); i++)
-	{
-		(*shaders[i]).use();
-		(*shaders[i]).setMat4("projection", camera.getProjectionMatrix());
-		(*shaders[i]).setMat4("view", camera.getViewMatrix());
-		(*shaders[i]).setVec3("viewPos", camera.getPosition());
 	}
 }
 

@@ -12,6 +12,7 @@
 #include <string>
 
 #include "shader.h"
+#include "camera.h"
 
 using std::vector;
 using std::string;
@@ -36,6 +37,16 @@ public:
 		Shader* tmp = new Shader(vertexPath, fragmentPath);
 		shaders.push_back(tmp);
 		return tmp;
+	}
+
+	void setCameraMatrices(Camera* camera) {
+		for (size_t i = 0; i < shaders.size(); i++)
+		{
+			(*shaders[i]).use();
+			(*shaders[i]).setMat4("projection", (*camera).getProjectionMatrix());
+			(*shaders[i]).setMat4("view", (*camera).getViewMatrix());
+			(*shaders[i]).setVec3("viewPos", (*camera).getPosition());
+		}
 	}
 
 private:
