@@ -26,6 +26,7 @@ class Model
 public:
     Model(string const& path, bool gamma = false)
     {
+        modelPath = path;
         loadModel(path);
         clearTextures();
     }
@@ -37,14 +38,14 @@ public:
             meshes[i].draw(shader);
     }
 
-    string getPath() {
-        return directory;
+    string getModelPath() {
+        return this->modelPath;
     }
 
 private:
     vector<Texture> textures_loaded;
     vector<Mesh>    meshes;
-    string directory;
+    string directory, modelPath;
 
     // Remove loaded textures from memory when no longer in use.
     void clearTextures() {
@@ -65,6 +66,7 @@ private:
         }
         // retrieve the directory path of the filepath
         directory = path.substr(0, path.find_last_of('/'));
+        modelPath = path;
 
         // process ASSIMP's root node recursively
         processNode(scene->mRootNode, scene);

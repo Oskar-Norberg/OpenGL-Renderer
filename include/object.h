@@ -35,7 +35,7 @@ public:
 	}
 
 	string getPath() {
-		return (*model).getPath();
+		return (*model).getModelPath();
 	}
 
 	Model* getModel() {

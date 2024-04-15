@@ -11,7 +11,9 @@
 
 #include "include/shader.h"
 #include "include/object.h"
+
 #include "include/shaderManager.h"
+#include "include/modelLoader.h"
 
 
 #include "include/pointLight.h"
@@ -93,6 +95,8 @@ GLFWwindow* initializeOpenGL() {
 
 void run(GLFWwindow* window) {
 	ShaderManager shaderManager;
+	ModelLoader modelLoader;
+
 
 	DirectionalLight sun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f), 1.0f, 0.09f, 0.032f);
 	vector<PointLight*> pointLights;
@@ -110,29 +114,30 @@ void run(GLFWwindow* window) {
 	(*multipleLightsShader).use();
 	(*multipleLightsShader).setFloat("material.shininess", 1.0f);
 
-	Model testModel("assets/models/testScene/testScene.obj");
-	Object testObject(glm::vec3(0.0f), &testModel, multipleLightsShader);
+	Model* testModel = modelLoader.loadModel("assets/models/testScene/testScene.obj");
+	Object testObject(glm::vec3(0.0f), testModel, multipleLightsShader);
 	opaqueObjects.push_back(&testObject);
 
-	Model pointLightModel("assets/models/lightBulb/lightBulb.obj");
-	PointLight pointlight(glm::vec3(0.0f, 5.0f, 0.0f), &pointLightModel, textureShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
+	Model* pointLightModel = modelLoader.loadModel("assets/models/lightBulb/lightBulb.obj");
+	PointLight pointlight(glm::vec3(0.0f, 5.0f, 0.0f), pointLightModel, textureShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	pointLights.push_back(&pointlight);
 	opaqueObjects.push_back(&pointlight);
 
-	PointLight pointlightTwo(glm::vec3(0.0f, 0.75f, 5.0f), &pointLightModel, textureShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
+	PointLight pointlightTwo(glm::vec3(0.0f, 0.75f, 5.0f), pointLightModel, textureShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	pointLights.push_back(&pointlightTwo);
 	opaqueObjects.push_back(&pointlightTwo);
 
-	Model spotlightModel("assets/models/spotlight/spotlight.obj");
-	Spotlight spotlight(glm::vec3(-4.0f, 8.0f, 0.0f), &spotlightModel, textureShader, glm::vec3(0.0f, -1.0f, 0.0f), 12.5f, 15.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
+
+	Model* spotlightModel = modelLoader.loadModel("assets/models/spotlight/spotlight.obj");
+	Spotlight spotlight(glm::vec3(-4.0f, 8.0f, 0.0f), spotlightModel, textureShader, glm::vec3(0.0f, -1.0f, 0.0f), 12.5f, 15.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	spotlights.push_back(&spotlight);
 	opaqueObjects.push_back(&spotlight);
 
-	Model grassModel("assets/models/grass/grass.obj");
-	Object grass(glm::vec3(0.0f, 1.0f, -5.0f), &grassModel, grassShader);
-	Object grassTwo(glm::vec3(-5.0f, 1.0f, -2.5f), &grassModel, grassShader);
-	Object grassThree(glm::vec3(-4.0f, 1.0f, 0.0f), &grassModel, grassShader);
-	Object grassFour(glm::vec3(2.0f, 1.0f, -3.0f), &grassModel, grassShader);
+	Model* grassModel = modelLoader.loadModel("assets/models/grass/grass.obj");
+	Object grass(glm::vec3(0.0f, 1.0f, -5.0f), grassModel, grassShader);
+	Object grassTwo(glm::vec3(-5.0f, 1.0f, -2.5f), grassModel, grassShader);
+	Object grassThree(glm::vec3(-4.0f, 1.0f, 0.0f), grassModel, grassShader);
+	Object grassFour(glm::vec3(2.0f, 1.0f, -3.0f), grassModel, grassShader);
 	opaqueObjects.push_back(&grass);
 	opaqueObjects.push_back(&grassTwo);
 	opaqueObjects.push_back(&grassThree);

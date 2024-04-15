@@ -156,6 +156,7 @@
     <ClInclude Include="include\light.h" />
     <ClInclude Include="include\mesh.h" />
     <ClInclude Include="include\model.h" />
+    <ClInclude Include="include\modelLoader.h" />
     <ClInclude Include="include\object.h" />
     <ClInclude Include="include\pointLight.h" />
     <ClInclude Include="include\scene.h" />
