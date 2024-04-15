@@ -21,7 +21,6 @@ struct CustomUniformVariable {
     string location;
     float f;
     glm::vec3 v3;
-    glm::vec4 v4;
     glm::mat4 m4;
 };
 typedef struct CustomUniformVariables CustomUniformVariables;
@@ -127,6 +126,24 @@ public:
 
     std::string getFragmentPath() {
         return fragmentPath;
+    }
+
+    void setCustomUniform(UNIFORM_TYPES type, vector<CustomUniformVariable> variables) {
+        for (size_t i = 0; i < variables.size(); i++)
+        {
+            switch (variables[i].type) {
+            case FLOAT:
+                setFloat(variables[i].location, variables[i].f);
+                break;
+            case VEC3:
+                setVec3(variables[i].location, variables[i].v3);
+                break;
+            case MAT4:
+                setMat4(variables[i].location, variables[i].m4);
+                break;
+            }
+        }
+
     }
 
 private:
