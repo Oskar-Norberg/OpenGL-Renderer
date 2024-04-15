@@ -20,8 +20,10 @@ public:
     unsigned int ID;
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
-    Shader(const char* vertexPath, const char* fragmentPath)
+    Shader(std::string vertexPath, std::string fragmentPath)
     {
+        this->vertexPath = vertexPath; 
+        this->fragmentPath = fragmentPath;
         // 1. retrieve the vertex/fragment source code from filePath
         std::string vertexCode;
         std::string fragmentCode;
@@ -107,7 +109,16 @@ public:
         glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
 
+    std::string getVertexPath() {
+        return vertexPath;
+    }
+
+    std::string getFragmentPath() {
+        return fragmentPath;
+    }
+
 private:
+    std::string vertexPath, fragmentPath;
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------
     void checkCompileErrors(unsigned int shader, std::string type)

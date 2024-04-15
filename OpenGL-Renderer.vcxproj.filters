@@ -53,5 +53,8 @@
     <ClInclude Include="include\scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaderManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

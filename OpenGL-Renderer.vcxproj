@@ -161,6 +161,7 @@
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\shader.h" />
     <ClInclude Include="include\spotlight.h" />
+    <ClInclude Include="include\shaderManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
