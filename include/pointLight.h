@@ -10,7 +10,7 @@ public:
 		this->position = position;
 	}
 	glm::vec3 getPosition() {
-		return this->getPosition;
+		return this->position;
 	}
 private:
 	glm::vec3 position;
