@@ -37,8 +37,6 @@ GLFWwindow* initializeOpenGL();
 void run(GLFWwindow* window);
 void quit(GLFWwindow* window);
 
-void setLights(Shader& shader, DirectionalLight& directionalLight, vector<PointLight*> pointLights, vector<Spotlight*> spotlights);
-
 void setWindShaderUniforms(Shader* shader);
 
 void processInput(GLFWwindow* window);
@@ -113,7 +111,7 @@ void run(GLFWwindow* window) {
 	(*multipleLightsShader).setFloat("material.shininess", 1.0f);
 
 	Model testModel("assets/models/testScene/testScene.obj");
-	Object testObject(glm::vec3(0.0f), &testModel, textureShader);
+	Object testObject(glm::vec3(0.0f), &testModel, multipleLightsShader);
 	opaqueObjects.push_back(&testObject);
 
 	Model pointLightModel("assets/models/lightBulb/lightBulb.obj");
@@ -157,7 +155,7 @@ void run(GLFWwindow* window) {
 
 		pointlight.setPosition(glm::vec3(sin(currentFrame * 2.0f) * 5.0f, 0.0f, 0.0f));
 
-		//setLights(multipleLightsShader, sun, pointLights, spotlights);
+		shaderManager.setLights(sun, pointLights, spotlights);
 
 		for (size_t i = 0; i < opaqueObjects.size(); i++)
 		{
@@ -171,65 +169,6 @@ void run(GLFWwindow* window) {
 
 void quit(GLFWwindow* window) {
 	printf("yea you should probably write me later");
-}
-
-void setLights(Shader& shader, DirectionalLight& directionalLight, vector<PointLight*> pointLights, vector<Spotlight*> spotlights) {
-	shader.use();
-
-	shader.setInt("nrOfPointLights", pointLights.size());
-	shader.setInt("nrOfSpotlights", spotlights.size());
-
-	// Directional light
-	{
-		string lightShaderLocation = "directionalLight.";
-		shader.setVec3(lightShaderLocation + "direction", directionalLight.getDirection());
-
-		shader.setVec3(lightShaderLocation + "ambient", directionalLight.getAmbient());
-		shader.setVec3(lightShaderLocation + "diffuse", directionalLight.getDiffuse());
-		shader.setVec3(lightShaderLocation + "specular", directionalLight.getSpecular());
-
-		shader.setFloat(lightShaderLocation + "constant", directionalLight.getConstant());
-		shader.setFloat(lightShaderLocation + "linear", directionalLight.getLinear());
-		shader.setFloat(lightShaderLocation + "quadratic", directionalLight.getQuadratic());
-	}
-
-	//Point lights
-	for (size_t i = 0; i < pointLights.size(); i++)
-	{
-		PointLight tmpPointLight = (*pointLights[i]);
-		string lightShaderLocation = "pointLights[" + std::to_string(i) + "].";
-
-		shader.setVec3(lightShaderLocation + "position", tmpPointLight.getPosition());
-
-		shader.setVec3(lightShaderLocation + "ambient", tmpPointLight.getAmbient());
-		shader.setVec3(lightShaderLocation + "diffuse", tmpPointLight.getDiffuse());
-		shader.setVec3(lightShaderLocation + "specular", tmpPointLight.getSpecular());
-
-		shader.setFloat(lightShaderLocation + "constant", tmpPointLight.getConstant());
-		shader.setFloat(lightShaderLocation + "linear", tmpPointLight.getLinear());
-		shader.setFloat(lightShaderLocation + "quadratic", tmpPointLight.getQuadratic());
-	}
-
-	//Spotlight
-	for (size_t i = 0; i < spotlights.size(); i++)
-	{
-		Spotlight tmpSpotLight = (*spotlights[i]);
-		string lightShaderLocation = "spotlights[" + std::to_string(i) + "].";
-
-		shader.setVec3(lightShaderLocation + "position", tmpSpotLight.getPosition());
-		shader.setVec3(lightShaderLocation + "direction", tmpSpotLight.getDirection());
-
-		shader.setFloat(lightShaderLocation + "cutoff", tmpSpotLight.getCutoff());
-		shader.setFloat(lightShaderLocation + "outerCutoff", tmpSpotLight.getOutercutoff());
-
-		shader.setVec3(lightShaderLocation + "ambient", tmpSpotLight.getAmbient());
-		shader.setVec3(lightShaderLocation + "diffuse", tmpSpotLight.getDiffuse());
-		shader.setVec3(lightShaderLocation + "specular", tmpSpotLight.getSpecular());
-
-		shader.setFloat(lightShaderLocation + "constant", tmpSpotLight.getConstant());
-		shader.setFloat(lightShaderLocation + "linear", tmpSpotLight.getLinear());
-		shader.setFloat(lightShaderLocation + "quadratic", tmpSpotLight.getQuadratic());
-	}
 }
 
 void setWindShaderUniforms(Shader* shader){
