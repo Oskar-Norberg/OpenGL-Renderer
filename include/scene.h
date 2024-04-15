@@ -74,6 +74,8 @@ private:
 	vector<Spotlight*> spotlights;
 
 	glm::vec4 backgroundColor;
+
+	
 };
 
 #endif
