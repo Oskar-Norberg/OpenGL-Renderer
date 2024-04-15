@@ -107,7 +107,16 @@ public:
         glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
 
+    std::string getVertexPath() {
+        return vertexPath;
+    }
+
+    std::string getFragmentPath() {
+        return fragmentPath;
+    }
+
 private:
+    std::string vertexPath, fragmentPath;
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------
     void checkCompileErrors(unsigned int shader, std::string type)
