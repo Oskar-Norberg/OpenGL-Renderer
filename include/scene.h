@@ -20,6 +20,11 @@
 class Scene {
 public:
 	Scene(){
+	Object* createOpaqueObject(std::string modelPath, glm::vec3 position, Shader* shader) {
+		Model* m = modelLoader.loadModel(modelPath);
+		Object* o = objectHandler.createOpaqueObject(position, m, shader);
+		return o;
+	}
 	}
 
 	PointLight* createPointLight(glm::vec3 position, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
