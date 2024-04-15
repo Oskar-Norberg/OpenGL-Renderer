@@ -156,6 +156,7 @@ void run(GLFWwindow* window) {
 		pointlight.setPosition(glm::vec3(sin(currentFrame * 2.0f) * 5.0f, 0.0f, 0.0f));
 
 		shaderManager.setLights(sun, pointLights, spotlights);
+		shaderManager.setWindShaderUniforms(grassShader);
 
 		for (size_t i = 0; i < opaqueObjects.size(); i++)
 		{
@@ -169,14 +170,6 @@ void run(GLFWwindow* window) {
 
 void quit(GLFWwindow* window) {
 	printf("yea you should probably write me later");
-}
-
-void setWindShaderUniforms(Shader* shader){
-	(*shader).use();
-	(*shader).setFloat("time", float(glfwGetTime()));
-	(*shader).setFloat("windSpeed", 1.0f);
-	(*shader).setFloat("windStrength", 0.5f);
-	
 }
 
 void processInput(GLFWwindow* window)
