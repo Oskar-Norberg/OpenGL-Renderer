@@ -14,8 +14,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-enum UNIFORM_TYPES { FLOAT, VEC3, VEC4, MAT4 };
-
 class Shader
 {
 public:
