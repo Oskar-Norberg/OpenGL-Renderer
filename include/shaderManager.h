@@ -118,13 +118,6 @@ public:
 
 	}
 
-	void setWindShaderUniforms(Shader* shader) {
-		(*shader).use();
-		(*shader).setFloat("time", float(glfwGetTime()));
-		(*shader).setFloat("windSpeed", 1.0f);
-		(*shader).setFloat("windStrength", 0.5f);
-	}
-
 private:
 	vector<Shader*> shaders;
 };
