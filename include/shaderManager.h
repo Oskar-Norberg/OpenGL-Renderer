@@ -18,9 +18,6 @@
 #include "pointLight.h"
 #include "spotlight.h"
 
-enum UNIFORM_TYPES {FLOAT, VEC3, VEC4, MAT4};
-
-
 using std::vector;
 using std::string;
 
