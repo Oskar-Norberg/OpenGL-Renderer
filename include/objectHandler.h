@@ -12,13 +12,16 @@
 class ObjectHandler {
 public:
 	Object* createOpaqueObject(glm::vec3 position, Model* model, Shader* shader) {
-		Object* testObject = new Object(position, model, shader);
-		opaqueObjects.push_back(testObject);
+		Object* object = new Object(position, model, shader);
+		opaqueObjects.push_back(object);
+		return object;
 	}
 
 	Object* createTransparentObject(glm::vec3 position, Model* model, Shader* shader) {
-		Object* testObject = new Object(position, model, shader);
-		transparentObjects.push_back(testObject);
+		Object* object = new Object(position, model, shader);
+		transparentObjects.push_back(object);
+		return object;
+	}
 	}
 
 private:
