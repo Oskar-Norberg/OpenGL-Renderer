@@ -16,16 +16,6 @@
 
 enum UNIFORM_TYPES { INT, FLOAT, VEC3, VEC4, MAT4 };
 
-struct CustomUniformVariable {
-    UNIFORM_TYPES type;
-    string location;
-    float f;
-    glm::vec3 v3;
-    glm::vec4 v4;
-    glm::mat4 m4;
-};
-typedef struct CustomUniformVariables CustomUniformVariables;
-
 class Shader
 {
 public:
