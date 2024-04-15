@@ -169,6 +169,9 @@ void run(GLFWwindow* window) {
 
 		processInput(window);
 
+		(*pointlight).setPosition(glm::vec3(sin(currentFrame * 2.0f) * 5.0f, 0.0f, 0.0f));
+		scene.setLights();
+
 		scene.draw(&camera);
 
 		glfwSwapBuffers(window);
