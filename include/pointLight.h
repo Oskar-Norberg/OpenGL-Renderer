@@ -5,7 +5,7 @@
 
 class PointLight : public Light{
 public:
-	PointLight(glm::vec3 position, Shader* shader, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic)
+	PointLight(glm::vec3 position, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic)
 		: Light(ambient, diffuse, specular, constant, linear, quadratic) {
 		this->position = position;
 	}
