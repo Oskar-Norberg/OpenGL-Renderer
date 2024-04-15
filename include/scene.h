@@ -19,7 +19,10 @@
 
 class Scene {
 public:
-	Scene(){
+	Scene(glm::vec4 backgroundColor = glm::vec4(0.4f, 0.4f, 0.4f, 1.0f)) {
+		this->backgroundColor = backgroundColor;
+	}
+
 	Object* createOpaqueObject(std::string modelPath, glm::vec3 position, Shader* shader) {
 		Model* m = modelLoader.loadModel(modelPath);
 		Object* o = objectHandler.createOpaqueObject(position, m, shader);
