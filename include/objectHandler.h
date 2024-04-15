@@ -22,6 +22,12 @@ public:
 		transparentObjects.push_back(object);
 		return object;
 	}
+
+	void draw() {
+		for (size_t i = 0; i < opaqueObjects.size(); i++)
+		{
+			(*opaqueObjects[i]).draw();
+		}
 	}
 
 private:
