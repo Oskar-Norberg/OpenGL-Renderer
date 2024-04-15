@@ -53,21 +53,27 @@ public:
 		return s;
 	}
 
-	
+	DirectionalLight* setSun(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
+		DirectionalLight* sun = new DirectionalLight(direction, ambient, diffuse, specular, constant, linear, quadratic);
+		this->sun = sun;
+		return sun;
+	}
+
+
 
 private:
 	ShaderManager shaderManager;
 	ModelLoader modelLoader;
 	ObjectHandler objectHandler;
 
-	DirectionalLight sun;
+	DirectionalLight* sun;
 	vector<PointLight*> pointLights;
 	vector<Spotlight*> spotlights;
 
 	glm::vec4 backgroundColor;
 
 	void setLights() {
-		shaderManager.setLights(sun, pointLights, spotlights);
+		shaderManager.setLights((*sun), pointLights, spotlights);
 	}
 };
 
