@@ -60,7 +60,9 @@ public:
 		return sun;
 	}
 
-
+	void setLights() {
+		shaderManager.setLights((*sun), pointLights, spotlights);
+	}
 
 private:
 	ShaderManager shaderManager;
@@ -73,9 +75,7 @@ private:
 
 	glm::vec4 backgroundColor;
 
-	void setLights() {
-		shaderManager.setLights((*sun), pointLights, spotlights);
-	}
+	
 };
 
 #endif
