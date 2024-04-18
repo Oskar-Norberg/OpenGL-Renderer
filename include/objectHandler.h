@@ -11,6 +11,17 @@
 
 class ObjectHandler {
 public:
+	~ObjectHandler() {
+		for (Object* obj : opaqueObjects) {
+			delete obj;
+		}
+		opaqueObjects.clear();
+		for (auto object : transparentObjects) {
+			delete object;
+		}
+		transparentObjects.clear();
+	}
+
 	Object* createOpaqueObject(glm::vec3 position, Model* model, Shader* shader) {
 		Object* object = new Object(position, model, shader);
 		opaqueObjects.push_back(object);

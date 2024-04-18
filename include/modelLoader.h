@@ -12,6 +12,13 @@ using std::string;
 
 class ModelLoader {
 public:
+	~ModelLoader() {
+		for (auto model : loadedModels) {
+			delete model;
+		}
+		loadedModels.clear();
+	}
+
 	Model* loadModel(std::string modelPath) {
 		// Prevents loading same model twice
 		for (size_t i = 0; i < loadedModels.size(); i++)

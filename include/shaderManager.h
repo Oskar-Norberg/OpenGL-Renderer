@@ -26,6 +26,12 @@ class ShaderManager {
 public:
 	ShaderManager() {
 	}
+	~ShaderManager() {
+		for (auto shader : shaders) {
+			delete shader;
+		}
+		shaders.clear();
+	}
 
 	Shader* createShader(string vertexPath, string fragmentPath) {
 		// Prevent loading same shader multiple times

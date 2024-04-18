@@ -23,6 +23,18 @@ public:
 		this->backgroundColor = backgroundColor;
 	}
 
+	~Scene() {
+		delete sun;
+		for (auto pointLight : pointLights) {
+			delete pointLight;
+		}
+		pointLights.clear();
+		for (auto spotlight : spotlights) {
+			delete spotlight;
+		}
+		spotlights.clear();
+	}
+
 	Object* createOpaqueObject(std::string modelPath, glm::vec3 position, Shader* shader) {
 		Model* m = modelLoader.loadModel(modelPath);
 		Object* o = objectHandler.createOpaqueObject(position, m, shader);
@@ -75,7 +87,7 @@ private:
 
 	glm::vec4 backgroundColor;
 
-	
+
 };
 
 #endif
