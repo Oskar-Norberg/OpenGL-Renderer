@@ -38,6 +38,18 @@ public:
 		setupMesh();
 	}
 
+	~Mesh() {
+		printf("Delete mesh\n");
+		glDeleteBuffers(1, &VBO);
+		glDeleteBuffers(1, &EBO);
+		glDeleteVertexArrays(1, &VAO);
+
+		for (size_t i = 0; i < textures.size(); i++)
+		{
+			glDeleteTextures(1, &textures[i].id);
+		}
+	}
+
 	// render the mesh
 	void draw(Shader& shader)
 	{
