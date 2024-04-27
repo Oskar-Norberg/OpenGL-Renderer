@@ -79,6 +79,9 @@ GLFWwindow* initializeOpenGL() {
 	// Enable
 	// Depth testing
 	glEnable(GL_DEPTH_TEST);
+	//Transparency (Blending)
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Setup callbacks
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -105,14 +108,17 @@ void run(GLFWwindow* window) {
 	(*grassShader).setFloat("windSpeed", 1.0f);
 	(*grassShader).setFloat("windStrength", 0.5f);
 
-	Object* testSceneObject = scene.createOpaqueObject("assets/models/testScene/testScene.obj", glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(0.0f), 0.0f, multipleLightsShader);
+	Object* testSceneObject = scene.createObject(false, "assets/models/testScene/testScene.obj", glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(0.0f), 0.0f, multipleLightsShader);
 
-	Object* grassObject = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(0.0f, 1.0f, -5.0f), glm::vec3(0.8f), glm::vec3(0.0f, 1.0f, 0.0f), 25.0f, grassShader);
-	Object* grassObjectTwo = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(-5.0f, 1.0f, -2.5f), glm::vec3(1.2f), glm::vec3(0.0f, 1.0f, 0.0f), 35.0f, grassShader);
-	Object* grassObjectThree = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(-4.0f, 1.0f, 0.0f), glm::vec3(0.9f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, grassShader);
-	Object* grassObjectFour = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(2.0f, 1.0f, -3.0f), glm::vec3(0.8f), glm::vec3(0.0f, 1.0f, 0.0f), 50.0f, grassShader);
+	Object* grassObject = scene.createObject(false, "assets/models/grass/grass.obj", glm::vec3(0.0f, 1.0f, -5.0f), glm::vec3(0.8f), glm::vec3(0.0f, 1.0f, 0.0f), 25.0f, grassShader);
+	Object* grassObjectTwo = scene.createObject(false, "assets/models/grass/grass.obj", glm::vec3(-5.0f, 1.0f, -2.5f), glm::vec3(1.2f), glm::vec3(0.0f, 1.0f, 0.0f), 35.0f, grassShader);
+	Object* grassObjectThree = scene.createObject(false, "assets/models/grass/grass.obj", glm::vec3(-4.0f, 1.0f, 0.0f), glm::vec3(0.9f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, grassShader);
+	Object* grassObjectFour = scene.createObject(false, "assets/models/grass/grass.obj", glm::vec3(2.0f, 1.0f, -3.0f), glm::vec3(0.8f), glm::vec3(0.0f, 1.0f, 0.0f), 50.0f, grassShader);
 
-	Object* cirno = scene.createOpaqueObject("assets/models/cirnoFumo/cirnoFumo.obj", glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.1f), glm::vec3(0.0f, 1.0f, 0.0f), -55.0f, multipleLightsShader);
+	Object* cirno = scene.createObject(false, "assets/models/cirnoFumo/cirnoFumo.obj", glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.1f), glm::vec3(0.0f, 1.0f, 0.0f), -55.0f, multipleLightsShader);
+
+	Object* windowObj = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -5.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, multipleLightsShader);
+	Object* windowObjTwo = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, multipleLightsShader);
 
 	PointLight* pointlight = scene.createPointLight(glm::vec3(0.0f, 5.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	PointLight* pointlightTwo = scene.createPointLight(glm::vec3(0.0f, 0.75f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);

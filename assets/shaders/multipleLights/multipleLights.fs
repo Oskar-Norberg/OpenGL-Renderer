@@ -100,7 +100,7 @@ void main(){
 	}
 	*/
 	
-	FragColor = vec4(result, 1.0f);
+	FragColor = vec4(result, diffuseTextureFragment.a);
 }
 
 vec3 calcDirectionalLight(DirectionalLight light, vec3 normalizedNormal, vec4 diffuseTextureFragment, vec4 specularTextureFragment){

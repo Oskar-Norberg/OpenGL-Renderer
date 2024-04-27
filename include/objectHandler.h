@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
+#include <map>
 
 #include "shader.h"
 #include "model.h"
@@ -34,10 +35,24 @@ public:
 		return object;
 	}
 
-	void draw() {
+	void draw(glm::vec3 cameraPosition) {
+		// Draw opaque objects
 		for (size_t i = 0; i < opaqueObjects.size(); i++)
 		{
 			(*opaqueObjects[i]).draw();
+		}
+
+		// Draw transparent objects
+		std::map<float, Object*> sorted;
+		for (unsigned int i = 0; i < transparentObjects.size(); i++)
+		{
+			float distance = glm::length(cameraPosition - (*transparentObjects[i]).getPosition());
+			sorted[distance] = transparentObjects[i];
+		}
+
+		for (std::map<float, Object*>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
+		{
+			it->second->draw();
 		}
 	}
 
