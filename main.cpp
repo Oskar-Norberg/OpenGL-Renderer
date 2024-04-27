@@ -19,8 +19,8 @@
 #include "include/spotlight.h"
 #include "include/directionalLight.h"
 
-
 #include "include/camera.h"
+
 
 int windowWidth = 1600, windowHeight = 900;
 std::string windowName = "Silly little renderer remake 3.0";
@@ -105,61 +105,18 @@ void run(GLFWwindow* window) {
 	(*grassShader).setFloat("windSpeed", 1.0f);
 	(*grassShader).setFloat("windStrength", 0.5f);
 
-	Object* testSceneObject = scene.createOpaqueObject("assets/models/testScene/testScene.obj", glm::vec3(0.0f), multipleLightsShader);
+	Object* testSceneObject = scene.createOpaqueObject("assets/models/testScene/testScene.obj", glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(0.0f), 0.0f, multipleLightsShader);
 
-	Object* grassObject = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(0.0f, 1.0f, -5.0f), grassShader);
-	Object* grassObjectTwo = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(-5.0f, 1.0f, -2.5f), grassShader);
-	Object* grassObjectThree = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(-4.0f, 1.0f, 0.0f), grassShader);
-	Object* grassObjectFour = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(2.0f, 1.0f, -3.0f), grassShader);
+	Object* grassObject = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(0.0f, 1.0f, -5.0f), glm::vec3(0.8f), glm::vec3(0.0f, 1.0f, 0.0f), 25.0f, grassShader);
+	Object* grassObjectTwo = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(-5.0f, 1.0f, -2.5f), glm::vec3(1.2f), glm::vec3(0.0f, 1.0f, 0.0f), 35.0f, grassShader);
+	Object* grassObjectThree = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(-4.0f, 1.0f, 0.0f), glm::vec3(0.9f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, grassShader);
+	Object* grassObjectFour = scene.createOpaqueObject("assets/models/grass/grass.obj", glm::vec3(2.0f, 1.0f, -3.0f), glm::vec3(0.8f), glm::vec3(0.0f, 1.0f, 0.0f), 50.0f, grassShader);
+
+	Object* cirno = scene.createOpaqueObject("assets/models/cirnoFumo/cirnoFumo.obj", glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.1f), glm::vec3(0.0f, 1.0f, 0.0f), -55.0f, multipleLightsShader);
 
 	PointLight* pointlight = scene.createPointLight(glm::vec3(0.0f, 5.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	PointLight* pointlightTwo = scene.createPointLight(glm::vec3(0.0f, 0.75f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	Spotlight* spotlight = scene.createSpotlight(glm::vec3(-4.0f, 8.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f), 12.5f, 15.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
-
-	/*
-	vector<PointLight*> pointLights;
-	vector<Spotlight*> spotlights;
-
-	vector<Object*> opaqueObjects;
-	vector<Object*> transparentObjects;
-
-
-	Shader* textureShader = shaderManager.createShader("assets/shaders/texture/texture.vs", "assets/shaders/texture/texture.fs");
-	Shader* multipleLightsShader = shaderManager.createShader("assets/shaders/multipleLights/multipleLights.vs", "assets/shaders/multipleLights/multipleLights.fs");
-	Shader* grassShader = shaderManager.createShader("assets/shaders/grass/grass.vs", "assets/shaders/grass/grass.fs");
-
-	(*multipleLightsShader).use();
-	(*multipleLightsShader).setFloat("material.shininess", 1.0f);
-
-	Model* testModel = modelLoader.loadModel("assets/models/testScene/testScene.obj");
-	Object testObject(glm::vec3(0.0f), testModel, multipleLightsShader);
-	opaqueObjects.push_back(&testObject);
-
-	Model* pointLightModel = modelLoader.loadModel("assets/models/lightBulb/lightBulb.obj");
-	PointLight pointlight(glm::vec3(0.0f, 5.0f, 0.0f), pointLightModel, textureShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
-	pointLights.push_back(&pointlight);
-	opaqueObjects.push_back(&pointlight);
-
-	PointLight pointlightTwo(glm::vec3(0.0f, 0.75f, 5.0f), pointLightModel, textureShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
-	pointLights.push_back(&pointlightTwo);
-	opaqueObjects.push_back(&pointlightTwo);
-
-
-	Model* spotlightModel = modelLoader.loadModel("assets/models/spotlight/spotlight.obj");
-	Spotlight spotlight(glm::vec3(-4.0f, 8.0f, 0.0f), spotlightModel, textureShader, glm::vec3(0.0f, -1.0f, 0.0f), 12.5f, 15.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
-	spotlights.push_back(&spotlight);
-	opaqueObjects.push_back(&spotlight);
-
-	Model* grassModel = modelLoader.loadModel("assets/models/grass/grass.obj");
-	Object grass(glm::vec3(0.0f, 1.0f, -5.0f), grassModel, grassShader);
-	Object grassTwo(glm::vec3(-5.0f, 1.0f, -2.5f), grassModel, grassShader);
-	Object grassThree(glm::vec3(-4.0f, 1.0f, 0.0f), grassModel, grassShader);
-	Object grassFour(glm::vec3(2.0f, 1.0f, -3.0f), grassModel, grassShader);
-	opaqueObjects.push_back(&grass);
-	opaqueObjects.push_back(&grassTwo);
-	opaqueObjects.push_back(&grassThree);
-	opaqueObjects.push_back(&grassFour);
-	*/
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -186,7 +143,7 @@ void run(GLFWwindow* window) {
 }
 
 void quit(GLFWwindow* window) {
-	printf("yea you should probably write me later");
+	glfwDestroyWindow(window);
 }
 
 void processInput(GLFWwindow* window)

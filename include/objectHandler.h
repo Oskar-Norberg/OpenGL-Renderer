@@ -22,14 +22,14 @@ public:
 		transparentObjects.clear();
 	}
 
-	Object* createOpaqueObject(glm::vec3 position, Model* model, Shader* shader) {
-		Object* object = new Object(position, model, shader);
+	Object* createOpaqueObject(glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees, Model* model, Shader* shader) {
+		Object* object = new Object(position, scale, rotationAxis, rotationDegrees, model, shader);
 		opaqueObjects.push_back(object);
 		return object;
 	}
 
-	Object* createTransparentObject(glm::vec3 position, Model* model, Shader* shader) {
-		Object* object = new Object(position, model, shader);
+	Object* createTransparentObject(glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees, Model* model, Shader* shader) {
+		Object* object = new Object(position, scale, rotationAxis, rotationDegrees, model, shader);
 		transparentObjects.push_back(object);
 		return object;
 	}

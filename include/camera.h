@@ -45,8 +45,6 @@ public:
 		float velocity = 50.0f * deltaTime;
 		direction *= velocity;
 
-		//this sucks but i wrote it :3, at least its normalized
-		//forward
 		float moveSpeed;
 		if (sprint) {
 			moveSpeed = SPRINT_SPEED;

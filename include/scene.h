@@ -35,9 +35,9 @@ public:
 		spotlights.clear();
 	}
 
-	Object* createOpaqueObject(std::string modelPath, glm::vec3 position, Shader* shader) {
+	Object* createOpaqueObject(std::string modelPath, glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees, Shader* shader) {
 		Model* m = modelLoader.loadModel(modelPath);
-		Object* o = objectHandler.createOpaqueObject(position, m, shader);
+		Object* o = objectHandler.createOpaqueObject(position, scale, rotationAxis, rotationDegrees, m, shader);
 		return o;
 	}
 
