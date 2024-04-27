@@ -79,9 +79,13 @@ GLFWwindow* initializeOpenGL() {
 	// Enable
 	// Depth testing
 	glEnable(GL_DEPTH_TEST);
-	//Transparency (Blending)
+	// Transparency (Blending)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// Face culling
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);
+	glCullFace(GL_BACK);
 
 	// Setup callbacks
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -117,8 +121,8 @@ void run(GLFWwindow* window) {
 
 	Object* cirno = scene.createObject(false, "assets/models/cirnoFumo/cirnoFumo.obj", glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.1f), glm::vec3(0.0f, 1.0f, 0.0f), -55.0f, multipleLightsShader);
 
-	Object* windowObj = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -5.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, multipleLightsShader);
-	Object* windowObjTwo = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, multipleLightsShader);
+	Object* windowObj = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -5.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, multipleLightsShader);
+	Object* windowObjTwo = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, multipleLightsShader);
 
 	PointLight* pointlight = scene.createPointLight(glm::vec3(0.0f, 5.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	PointLight* pointlightTwo = scene.createPointLight(glm::vec3(0.0f, 0.75f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
