@@ -2,6 +2,7 @@
 #define SHADER_MANAGER_H
 
 #include "shader.h"
+#include "GLSLBufferObjects.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -25,7 +26,11 @@ using std::string;
 class ShaderManager {
 public:
 	ShaderManager() {
+		glGenBuffers(1, &viewProjectionUBO);
+		glBindBuffer(GL_UNIFORM_BUFFER, viewProjectionUBO);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(ViewProjectionMatrices), NULL, GL_STATIC_DRAW);
 	}
+
 	~ShaderManager() {
 		for (auto shader : shaders) {
 			delete shader;
@@ -51,13 +56,24 @@ public:
 	}
 
 	void setCameraMatrices(Camera* camera) {
+		// Bind to uniform buffer object
+		glBindBuffer(GL_UNIFORM_BUFFER, viewProjectionUBO);
+		glm::mat4 view = (*camera).getViewMatrix();
+		glm::mat4 projection = (*camera).getProjectionMatrix();
+
+
 		for (size_t i = 0; i < shaders.size(); i++)
 		{
-			(*shaders[i]).use();
-			(*shaders[i]).setMat4("projection", (*camera).getProjectionMatrix());
-			(*shaders[i]).setMat4("view", (*camera).getViewMatrix());
-			(*shaders[i]).setVec3("viewPos", (*camera).getPosition());
+			// Set index to view projection matrices for each shader
+			unsigned int viewProjectionIndex = glGetUniformBlockIndex((*shaders[i]).ID, "ViewProjectionMatrices");
+			glUniformBlockBinding((*shaders[i]).ID, viewProjectionIndex, VIEWPROJECTIONBINDINGPOINT);
 		}
+		// Bind to said index
+		glBindBufferBase(GL_UNIFORM_BUFFER, VIEWPROJECTIONBINDINGPOINT, viewProjectionUBO);
+
+		// Send data
+		glBufferSubData(GL_UNIFORM_BUFFER, offsetof(ViewProjectionMatrices, view), sizeof(ViewProjectionMatrices::view), &view);
+		glBufferSubData(GL_UNIFORM_BUFFER, offsetof(ViewProjectionMatrices, projection), sizeof(ViewProjectionMatrices::projection), &projection);
 	}
 
 	void setLights(DirectionalLight& directionalLight, vector<PointLight*> pointLights, vector<Spotlight*> spotlights) {
@@ -125,6 +141,7 @@ public:
 	}
 
 private:
+	unsigned int viewProjectionUBO;
 	vector<Shader*> shaders;
 };
 

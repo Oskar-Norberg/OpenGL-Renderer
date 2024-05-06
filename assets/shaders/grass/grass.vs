@@ -9,9 +9,12 @@ uniform float time;
 uniform float windSpeed;
 uniform float windStrength;
 
+layout (std140) uniform ViewProjectionMatrices
+{
+    mat4 view;
+    mat4 projection;
+};
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
 
 out vec2 TextureCoord;
 

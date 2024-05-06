@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\directionalLight.h" />
+    <ClInclude Include="include\GLSLBufferObjects.h" />
     <ClInclude Include="include\light.h" />
     <ClInclude Include="include\mesh.h" />
     <ClInclude Include="include\model.h" />
