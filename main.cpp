@@ -103,6 +103,7 @@ void run(GLFWwindow* window) {
 	scene.setSun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f), 1.0f, 0.09f, 0.032f);
 
 	Shader* textureShader = scene.createShader("assets/shaders/texture/texture.vs", "assets/shaders/texture/texture.fs");
+	Shader* vertexWobble = scene.createShader("assets/shaders/vertexWobble/vertexWobble.vs", "assets/shaders/multipleLights/multipleLights.fs");
 	Shader* multipleLightsShader = scene.createShader("assets/shaders/multipleLights/multipleLights.vs", "assets/shaders/multipleLights/multipleLights.fs");
 	(*multipleLightsShader).use();
 	(*multipleLightsShader).setFloat("material.shininess", 1.0f);
@@ -120,6 +121,7 @@ void run(GLFWwindow* window) {
 	Object* grassObjectFour = scene.createObject(false, "assets/models/grass/grass.obj", glm::vec3(2.0f, 1.0f, -3.0f), glm::vec3(0.8f), glm::vec3(0.0f, 1.0f, 0.0f), 50.0f, grassShader);
 
 	Object* cirno = scene.createObject(false, "assets/models/cirnoFumo/cirnoFumo.obj", glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.1f), glm::vec3(0.0f, 1.0f, 0.0f), -55.0f, multipleLightsShader);
+	Object* gman = scene.createObject(false, "assets/models/gman/gman.obj", glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.1f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, vertexWobble);
 
 	Object* windowObj = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -5.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, multipleLightsShader);
 	Object* windowObjTwo = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, multipleLightsShader);
@@ -139,6 +141,7 @@ void run(GLFWwindow* window) {
 		processInput(window);
 
 		// Custom shaders
+		//(*gman).setPosition((*gman).getPosition() + glm::vec3(sin(currentFrame/10.0f) * 0.001f, 0.0f, 0.0f));
 		(*grassShader).use();
 		(*grassShader).setFloat("time", float(glfwGetTime()));
 
