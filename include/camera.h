@@ -6,6 +6,7 @@
 
 const float SENSITIVITY = 0.1f;
 const float BASE_SPEED = 0.2f;
+const float CROUCH_SPEED = 0.05f;
 const float SPRINT_SPEED = 0.8f;
 
 class Camera
@@ -49,9 +50,13 @@ public:
 		if (sprint) {
 			moveSpeed = SPRINT_SPEED;
 		}
+		else if (crouch) {
+			moveSpeed = CROUCH_SPEED;
+		}
 		else {
 			moveSpeed = BASE_SPEED;
 		}
+
 
 		position -= glm::normalize(this->direction) * direction.z * moveSpeed;
 
@@ -85,9 +90,13 @@ public:
 		this->sprint = sprint;
 	}
 
+	void setCrouch(bool crouch) {
+		this->crouch = crouch;
+	}
+
 private:
 	float yaw, pitch;
-	bool sprint;
+	bool sprint, crouch;
 	glm::mat4 projection;
 	glm::vec3 position;
 	glm::vec3 direction;
