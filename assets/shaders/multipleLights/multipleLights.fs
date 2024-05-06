@@ -53,8 +53,7 @@ struct DirectionalLight{
 in vec2 TextureCoord;
 in vec3 Normal;
 in vec3 FragPos;
-
-uniform vec3 viewPos;
+in vec3 viewPos;
 
 uniform Material material;
 

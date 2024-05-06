@@ -60,6 +60,7 @@ public:
 		glBindBuffer(GL_UNIFORM_BUFFER, viewProjectionUBO);
 		glm::mat4 view = (*camera).getViewMatrix();
 		glm::mat4 projection = (*camera).getProjectionMatrix();
+		glm::vec3 position = (*camera).getPosition();
 
 
 		for (size_t i = 0; i < shaders.size(); i++)
@@ -74,6 +75,7 @@ public:
 		// Send data
 		glBufferSubData(GL_UNIFORM_BUFFER, offsetof(ViewProjectionMatrices, view), sizeof(ViewProjectionMatrices::view), &view);
 		glBufferSubData(GL_UNIFORM_BUFFER, offsetof(ViewProjectionMatrices, projection), sizeof(ViewProjectionMatrices::projection), &projection);
+		glBufferSubData(GL_UNIFORM_BUFFER, offsetof(ViewProjectionMatrices, viewPosition), sizeof(ViewProjectionMatrices::viewPosition), &position);
 	}
 
 	void setLights(DirectionalLight& directionalLight, vector<PointLight*> pointLights, vector<Spotlight*> spotlights) {
