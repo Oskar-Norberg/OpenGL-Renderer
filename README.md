@@ -1,3 +1,5 @@
 # OpenGL-Renderer
-
-My personal repository for learning to work with OpenGL. All code is in some form derived from Joey de Vries Learn OpenGL.
+<img src="coverimage.png">
+My personal repository for learning engine and rendering basics while maintaining proper engine and data structure.
+<br>
+OpenGL code is largely derived from Joey de Vries Learn OpenGL.
