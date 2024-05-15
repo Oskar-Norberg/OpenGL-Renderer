@@ -2,6 +2,7 @@
 #define SHADER_MANAGER_H
 
 #include "shader.h"
+#include "lights.h"
 #include "GLSLBufferObjects.h"
 
 #include <glm/glm.hpp>
@@ -15,11 +16,6 @@
 #include "shader.h"
 #include "camera.h"
 
-#include "directionalLight.h"
-#include "pointLight.h"
-#include "spotlight.h"
-
-
 using std::vector;
 using std::string;
 
@@ -29,6 +25,10 @@ public:
 		glGenBuffers(1, &viewProjectionUBO);
 		glBindBuffer(GL_UNIFORM_BUFFER, viewProjectionUBO);
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(ViewProjectionMatrices), NULL, GL_STATIC_DRAW);
+
+		glGenBuffers(1, &lightsUBO);
+		glBindBuffer(GL_UNIFORM_BUFFER, lightsUBO);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(Lights), NULL, GL_STATIC_DRAW);
 	}
 
 	~ShaderManager() {
@@ -36,6 +36,9 @@ public:
 			delete shader;
 		}
 		shaders.clear();
+
+		glDeleteBuffers(1, &viewProjectionUBO);
+		glDeleteBuffers(1, &lightsUBO);
 	}
 
 	Shader* createShader(string vertexPath, string fragmentPath) {
@@ -58,92 +61,44 @@ public:
 	void setCameraMatrices(Camera* camera) {
 		// Bind to uniform buffer object
 		glBindBuffer(GL_UNIFORM_BUFFER, viewProjectionUBO);
-		glm::mat4 view = (*camera).getViewMatrix();
-		glm::mat4 projection = (*camera).getProjectionMatrix();
-		glm::vec3 position = (*camera).getPosition();
 
 
 		for (size_t i = 0; i < shaders.size(); i++)
 		{
 			// Set index to view projection matrices for each shader
 			unsigned int viewProjectionIndex = glGetUniformBlockIndex((*shaders[i]).ID, "ViewProjectionMatrices");
-			glUniformBlockBinding((*shaders[i]).ID, viewProjectionIndex, VIEWPROJECTIONBINDINGPOINT);
+			glUniformBlockBinding((*shaders[i]).ID, viewProjectionIndex, VIEW_PROJECTION_BINDINGPOINT);
 		}
 		// Bind to said index
-		glBindBufferBase(GL_UNIFORM_BUFFER, VIEWPROJECTIONBINDINGPOINT, viewProjectionUBO);
+		glBindBufferBase(GL_UNIFORM_BUFFER, VIEW_PROJECTION_BINDINGPOINT, viewProjectionUBO);
+
+		ViewProjectionMatrices tmp = { (*camera).getViewMatrix(), (*camera).getProjectionMatrix(), (*camera).getPosition() };
 
 		// Send data
-		glBufferSubData(GL_UNIFORM_BUFFER, offsetof(ViewProjectionMatrices, view), sizeof(ViewProjectionMatrices::view), &view);
-		glBufferSubData(GL_UNIFORM_BUFFER, offsetof(ViewProjectionMatrices, projection), sizeof(ViewProjectionMatrices::projection), &projection);
-		glBufferSubData(GL_UNIFORM_BUFFER, offsetof(ViewProjectionMatrices, viewPosition), sizeof(ViewProjectionMatrices::viewPosition), &position);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(ViewProjectionMatrices), &tmp);
 	}
 
-	void setLights(DirectionalLight& directionalLight, vector<PointLight*> pointLights, vector<Spotlight*> spotlights) {
+	void setLights(Lights lights) {
+		// Bind to uniform buffer object
+		glBindBuffer(GL_UNIFORM_BUFFER, lightsUBO);
+
+
 		for (size_t i = 0; i < shaders.size(); i++)
 		{
-			Shader shader = (*shaders[i]);
-			shader.use();
-
-			shader.setInt("nrOfPointLights", pointLights.size());
-			shader.setInt("nrOfSpotlights", spotlights.size());
-
-			// Directional light
-			{
-				string lightShaderLocation = "directionalLight.";
-				shader.setVec3(lightShaderLocation + "direction", directionalLight.getDirection());
-
-				shader.setVec3(lightShaderLocation + "ambient", directionalLight.getAmbient());
-				shader.setVec3(lightShaderLocation + "diffuse", directionalLight.getDiffuse());
-				shader.setVec3(lightShaderLocation + "specular", directionalLight.getSpecular());
-
-				shader.setFloat(lightShaderLocation + "constant", directionalLight.getConstant());
-				shader.setFloat(lightShaderLocation + "linear", directionalLight.getLinear());
-				shader.setFloat(lightShaderLocation + "quadratic", directionalLight.getQuadratic());
-			}
-
-			//Point lights
-			for (size_t i = 0; i < pointLights.size(); i++)
-			{
-				PointLight tmpPointLight = (*pointLights[i]);
-				string lightShaderLocation = "pointLights[" + std::to_string(i) + "].";
-
-				shader.setVec3(lightShaderLocation + "position", tmpPointLight.getPosition());
-
-				shader.setVec3(lightShaderLocation + "ambient", tmpPointLight.getAmbient());
-				shader.setVec3(lightShaderLocation + "diffuse", tmpPointLight.getDiffuse());
-				shader.setVec3(lightShaderLocation + "specular", tmpPointLight.getSpecular());
-
-				shader.setFloat(lightShaderLocation + "constant", tmpPointLight.getConstant());
-				shader.setFloat(lightShaderLocation + "linear", tmpPointLight.getLinear());
-				shader.setFloat(lightShaderLocation + "quadratic", tmpPointLight.getQuadratic());
-			}
-
-			//Spotlight
-			for (size_t i = 0; i < spotlights.size(); i++)
-			{
-				Spotlight tmpSpotLight = (*spotlights[i]);
-				string lightShaderLocation = "spotlights[" + std::to_string(i) + "].";
-
-				shader.setVec3(lightShaderLocation + "position", tmpSpotLight.getPosition());
-				shader.setVec3(lightShaderLocation + "direction", tmpSpotLight.getDirection());
-
-				shader.setFloat(lightShaderLocation + "cutoff", tmpSpotLight.getCutoff());
-				shader.setFloat(lightShaderLocation + "outerCutoff", tmpSpotLight.getOutercutoff());
-
-				shader.setVec3(lightShaderLocation + "ambient", tmpSpotLight.getAmbient());
-				shader.setVec3(lightShaderLocation + "diffuse", tmpSpotLight.getDiffuse());
-				shader.setVec3(lightShaderLocation + "specular", tmpSpotLight.getSpecular());
-
-				shader.setFloat(lightShaderLocation + "constant", tmpSpotLight.getConstant());
-				shader.setFloat(lightShaderLocation + "linear", tmpSpotLight.getLinear());
-				shader.setFloat(lightShaderLocation + "quadratic", tmpSpotLight.getQuadratic());
-			}
+			// Set index to lights for each shader
+			unsigned int lightsIndex = glGetUniformBlockIndex((*shaders[i]).ID, "Lights");
+			glUniformBlockBinding((*shaders[i]).ID, lightsIndex, LIGHTS_BINDINGPOINT);
 		}
 
+		// Bind to said index
+		glBindBufferBase(GL_UNIFORM_BUFFER, LIGHTS_BINDINGPOINT, lightsUBO);
+
+		// Directional Light Data
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Lights), &lights);
 	}
 
 private:
-	unsigned int viewProjectionUBO;
+	unsigned int viewProjectionUBO, lightsUBO;
 	vector<Shader*> shaders;
 };
 
