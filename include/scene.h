@@ -13,26 +13,12 @@
 #include "modelLoader.h"
 #include "objectHandler.h"
 
-#include "pointLight.h"
-#include "spotlight.h"
-#include "directionalLight.h"
+#include "lights.h"
 
 class Scene {
 public:
 	Scene(glm::vec4 backgroundColor = glm::vec4(0.4f, 0.4f, 0.4f, 1.0f)) {
 		this->backgroundColor = backgroundColor;
-	}
-
-	~Scene() {
-		delete sun;
-		for (auto pointLight : pointLights) {
-			delete pointLight;
-		}
-		pointLights.clear();
-		for (auto spotlight : spotlights) {
-			delete spotlight;
-		}
-		spotlights.clear();
 	}
 
 	Object* createObject(bool transparent, std::string modelPath, glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees, Shader* shader) {
@@ -59,27 +45,30 @@ public:
 	}
 
 	PointLight* createPointLight(glm::vec3 position, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
-		PointLight* p = new PointLight(position, ambient, diffuse, specular, constant, linear, quadratic);
-		pointLights.push_back(p);
+		PointLight* pointLight = &lights.pointLights[lights.nrOfPointLights];
+		(*pointLight) = { position, constant, ambient, linear, diffuse, quadratic, specular };
+		lights.nrOfPointLights++;
 		setLights();
-		return p;
+		return pointLight;
 	}
 
-	Spotlight* createSpotlight(glm::vec3 position, glm::vec3 direction, float cutoff, float outerCutoff, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
-		Spotlight* s = new Spotlight(position, direction, cutoff, outerCutoff, ambient, diffuse, specular, constant, linear, quadratic);
-		spotlights.push_back(s);
+	Spotlight* createSpotlight(glm::vec3 position, glm::vec3 direction, float cutoffAngle, float outerCutoffAngle, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
+		float cutoff = glm::cos(glm::radians(cutoffAngle));
+		float outerCutoff = glm::cos(glm::radians(outerCutoffAngle));
+		Spotlight* spotlight = &lights.spotlights[lights.nrOfSpotlights];
+		(*spotlight) = { position, cutoff, direction, outerCutoff, ambient, constant, diffuse, linear, specular, quadratic };
+		lights.nrOfSpotlights++;
 		setLights();
-		return s;
+		return spotlight;
 	}
 
 	DirectionalLight* setSun(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
-		DirectionalLight* sun = new DirectionalLight(direction, ambient, diffuse, specular, constant, linear, quadratic);
-		this->sun = sun;
-		return sun;
+		lights.directionalLight = { direction, constant, ambient, linear, diffuse, quadratic, specular };
+		return &(lights.directionalLight);
 	}
 
 	void setLights() {
-		shaderManager.setLights((*sun), pointLights, spotlights);
+		shaderManager.setLights(lights);
 	}
 
 private:
@@ -87,13 +76,9 @@ private:
 	ModelLoader modelLoader;
 	ObjectHandler objectHandler;
 
-	DirectionalLight* sun;
-	vector<PointLight*> pointLights;
-	vector<Spotlight*> spotlights;
+	Lights lights;
 
 	glm::vec4 backgroundColor;
-
-
 };
 
 #endif
