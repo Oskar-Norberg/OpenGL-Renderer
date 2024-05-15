@@ -1,11 +1,14 @@
 #ifndef GLSLBUFFEROBJECTS_H
 #define GLSLBUFFEROBJECTS_H
 
-#define VIEWPROJECTIONBINDINGPOINT 0
+#define VIEW_PROJECTION_BINDINGPOINT 0
+#define LIGHTS_BINDINGPOINT 1
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "lights.h"
 
 typedef struct ViewProjectionPositionMatrices {
 	glm::mat4 view;
