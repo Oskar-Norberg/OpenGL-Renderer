@@ -44,19 +44,21 @@ struct DirectionalLight{
 
 };
 
+layout (std140) uniform Lights
+{
+	DirectionalLight directionalLight;
+	PointLight pointLights[MAX_POINT_LIGHTS];
+    Spotlight spotlights[MAX_SPOTLIGHTS];
+	int nrOfSpotlights;
+	int nrOfPointLights;
+};
+
 in vec2 TextureCoord;
 in vec3 Normal;
 in vec3 FragPos;
 in vec3 viewPos;
 
 uniform Material material;
-
-uniform Spotlight spotlights[MAX_SPOTLIGHTS];
-uniform PointLight pointLights[MAX_POINT_LIGHTS];
-uniform DirectionalLight directionalLight;
-
-uniform int nrOfSpotlights;
-uniform int nrOfPointLights;
 
 out vec4 FragColor;
 
