@@ -6,17 +6,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <stdio.h>
 #include <string>
 
 #include "include/shader.h"
 #include "include/object.h"
-
 #include "include/scene.h"
-
-
 #include "include/lights.h"
-
 #include "include/camera.h"
 
 
@@ -98,8 +93,8 @@ GLFWwindow* initializeOpenGL() {
 void run(GLFWwindow* window) {
 	Scene scene;
 
-	scene.setSun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f), 1.0f, 0.09f, 0.032f);
-	//scene.setSun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f);
+	scene.setSun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(0.75f));
+	//scene.setSun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f));
 
 	Shader* textureShader = scene.createShader("assets/shaders/texture/texture.vs", "assets/shaders/texture/texture.fs");
 	//Shader* vertexWobble = scene.createShader("assets/shaders/vertexWobble/vertexWobble.vs", "assets/shaders/multipleLights/multipleLights.fs");
@@ -125,7 +120,7 @@ void run(GLFWwindow* window) {
 	Object* windowObj = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -5.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, multipleLightsShader);
 	Object* windowObjTwo = scene.createObject(true, "assets/models/window/window.obj", glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, multipleLightsShader);
 
-	PointLight* pointlight = scene.createPointLight(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
+	PointLight* pointlight = scene.createPointLight(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f), glm::vec3(0.2f), 1.0f, 0.35f, 0.44f);
 	//PointLight* pointlightTwo = scene.createPointLight(glm::vec3(0.0f, 0.75f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	Spotlight* spotlight = scene.createSpotlight(glm::vec3(-4.0f, 8.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f), 12.5f, 15.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 

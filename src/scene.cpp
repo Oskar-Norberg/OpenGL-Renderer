@@ -39,8 +39,8 @@ Spotlight* Scene::createSpotlight(glm::vec3 position, glm::vec3 direction, float
 	return spotlight;
 }
 
-DirectionalLight* Scene::setSun(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
-	DirectionalLight* directionalLight = lightManager.setSun(direction, ambient, diffuse, specular, constant, linear, quadratic);
+DirectionalLight* Scene::setSun(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular) {
+	DirectionalLight* directionalLight = lightManager.setSun(direction, ambient, diffuse, specular);
 	setLights();
 	return directionalLight;
 }
