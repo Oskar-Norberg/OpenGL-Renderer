@@ -152,18 +152,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h" />
-    <ClInclude Include="include\directionalLight.h" />
     <ClInclude Include="include\GLSLBufferObjects.h" />
-    <ClInclude Include="include\light.h" />
+    <ClInclude Include="include\lightManager.h" />
+    <ClInclude Include="include\lights.h" />
     <ClInclude Include="include\mesh.h" />
     <ClInclude Include="include\model.h" />
     <ClInclude Include="include\modelLoader.h" />
     <ClInclude Include="include\object.h" />
     <ClInclude Include="include\objectHandler.h" />
-    <ClInclude Include="include\pointLight.h" />
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\shader.h" />
-    <ClInclude Include="include\spotlight.h" />
     <ClInclude Include="include\shaderManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

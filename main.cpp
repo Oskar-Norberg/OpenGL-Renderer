@@ -141,8 +141,8 @@ void run(GLFWwindow* window) {
 
 		// Custom shaders
 		//(*gman).setPosition((*gman).getPosition() + glm::vec3(sin(currentFrame/10.0f) * 0.001f, 0.0f, 0.0f));
-		(*pointlight).position.x = sin(currentFrame) * 10.0f;
-		scene.setLights();
+		//(*pointlight).position.x = sin(currentFrame) * 10.0f;
+		//scene.setLights();
 		(*grassShader).use();
 		(*grassShader).setFloat("time", float(glfwGetTime()));
 

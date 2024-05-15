@@ -12,6 +12,7 @@
 #include "shaderManager.h"
 #include "modelLoader.h"
 #include "objectHandler.h"
+#include "lightManager.h"
 
 #include "lights.h"
 
@@ -45,38 +46,32 @@ public:
 	}
 
 	PointLight* createPointLight(glm::vec3 position, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
-		PointLight* pointLight = &lights.pointLights[lights.nrOfPointLights];
-		(*pointLight) = { position, constant, ambient, linear, diffuse, quadratic, specular };
-		lights.nrOfPointLights++;
+		PointLight* pointLight = lightManager.addPointLight(position, ambient, diffuse, specular, constant, linear, quadratic);
 		setLights();
 		return pointLight;
 	}
 
 	Spotlight* createSpotlight(glm::vec3 position, glm::vec3 direction, float cutoffAngle, float outerCutoffAngle, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
-		float cutoff = glm::cos(glm::radians(cutoffAngle));
-		float outerCutoff = glm::cos(glm::radians(outerCutoffAngle));
-		Spotlight* spotlight = &lights.spotlights[lights.nrOfSpotlights];
-		(*spotlight) = { position, cutoff, direction, outerCutoff, ambient, constant, diffuse, linear, specular, quadratic };
-		lights.nrOfSpotlights++;
+		Spotlight* spotlight = lightManager.addSpotlight(position, direction, cutoffAngle, outerCutoffAngle, ambient, diffuse, specular, constant, linear, quadratic);
 		setLights();
 		return spotlight;
 	}
 
 	DirectionalLight* setSun(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
-		lights.directionalLight = { direction, constant, ambient, linear, diffuse, quadratic, specular };
-		return &(lights.directionalLight);
+		DirectionalLight* directionalLight = lightManager.setSun(direction, ambient, diffuse, specular, constant, linear, quadratic);
+		setLights();
+		return directionalLight;
 	}
 
 	void setLights() {
-		shaderManager.setLights(lights);
+		shaderManager.setLights(lightManager.getLights());
 	}
 
 private:
 	ShaderManager shaderManager;
 	ModelLoader modelLoader;
 	ObjectHandler objectHandler;
-
-	Lights lights;
+	LightManager lightManager;
 
 	glm::vec4 backgroundColor;
 };

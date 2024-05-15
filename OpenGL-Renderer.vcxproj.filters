@@ -35,19 +35,7 @@
     <ClInclude Include="include\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\light.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\pointLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\spotlight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\directionalLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\scene.h">
@@ -63,6 +51,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GLSLBufferObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lights.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
