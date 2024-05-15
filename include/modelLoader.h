@@ -1,14 +1,11 @@
 #ifndef MODEL_LOADER_H
 #define MODEL_LOADER_H
 
-#include <stdio.h>
+#include "model.h"
+
 #include <vector>
 #include <string>
 
-#include "model.h"
-
-using std::vector;
-using std::string;
 
 class ModelLoader {
 public:
@@ -33,7 +30,7 @@ public:
 		return model;
 	}
 private:
-	vector<Model*> loadedModels;
+	std::vector<Model*> loadedModels;
 };
 
 #endif

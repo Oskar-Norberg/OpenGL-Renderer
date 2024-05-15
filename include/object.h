@@ -12,59 +12,21 @@
 class Object
 {
 public:
-	Object(glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees, Model* model, Shader* shader) {
-		this->position = position;
-		
-		this->scale = scale;
+	Object(glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees, Model* model, Shader* shader);
 
-		this->rotationAxis = rotationAxis;
-		this->rotationDegrees = rotationDegrees;
+	void draw();
 
-		this->model = model;
-		this->shader = shader;
-	}
+	glm::vec3 getPosition();
 
-	void draw() {
-		(*shader).use();
+	void setPosition(glm::vec3 position);
 
-		glm::mat4 modelMat(1.0f);
-		modelMat = glm::translate(modelMat, position);
-		if (rotationDegrees)
-		{
-			modelMat = glm::rotate(modelMat, rotationDegrees, rotationAxis);
-		}
-		if (scale != glm::vec3(0.0f)) {
-			modelMat = glm::scale(modelMat, scale);
-		}
+	void setRotation(float degrees, glm::vec3 axis);
 
-		(*shader).setMat4("model", modelMat);
-		(*model).draw((*shader));
-	}
+	void setScale(glm::vec3 scale);
 
-	glm::vec3 getPosition() {
-		return this->position;
-	}
+	std::string getPath();
 
-	void setPosition(glm::vec3 position) {
-		this->position = position;
-	}
-
-	void setRotation(float degrees, glm::vec3 axis) {
-		this->rotationAxis = axis;
-		this->rotationDegrees = degrees;
-	}
-
-	void setScale(glm::vec3 scale) {
-		this->scale = scale;
-	}
-
-	string getPath() {
-		return (*model).getModelPath();
-	}
-
-	Model* getModel() {
-		return model;
-	}
+	Model* getModel();
 
 private:
 	glm::vec3 position;
