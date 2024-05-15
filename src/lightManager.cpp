@@ -1,7 +1,7 @@
 #include "../include/lightManager.h"
 
 DirectionalLight* LightManager::setSun(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular) {
-	lights.directionalLight = { glm::vec4(direction, 1.0f), glm::vec4(ambient, 1.0f), glm::vec4(diffuse, 1.0f), glm::vec4(specular, 1.0f) };
+	lights.directionalLight = { direction, ambient, diffuse, specular };
 	return &(lights.directionalLight);
 }
 

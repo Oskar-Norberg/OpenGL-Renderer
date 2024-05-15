@@ -10,11 +10,10 @@
 
 
 typedef struct DirectionalLight {
-	glm::vec4 direction;
-	glm::vec4 ambient;
-	glm::vec4 diffuse;
-	glm::vec4 specular;
-
+	alignas(sizeof(glm::vec4)) glm::vec3 direction;
+	alignas(sizeof(glm::vec4)) glm::vec3 ambient;
+	alignas(sizeof(glm::vec4)) glm::vec3 diffuse;
+	alignas(sizeof(glm::vec4)) glm::vec3 specular;
 } DirectionalLight;
 
 typedef struct PointLight {
