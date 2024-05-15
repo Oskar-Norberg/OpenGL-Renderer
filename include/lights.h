@@ -23,8 +23,7 @@ typedef struct PointLight {
 	float linear;
 	glm::vec3 diffuse;
 	float quadratic;
-	glm::vec3 specular;
-	float Ka;
+	alignas(sizeof(glm::vec4)) glm::vec3 specular;
 } PointLight;
 
 typedef struct Spotlight {
