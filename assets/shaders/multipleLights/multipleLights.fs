@@ -12,42 +12,36 @@ struct Material{
 
 struct Spotlight{
 	vec3 position;
-	vec3 direction;
-
 	float cutoff;
+	vec3 direction;
 	float outerCutoff;
-
 	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
-
 	float constant;
+	vec3 diffuse;
     float linear;
+	vec3 specular;
     float quadratic;
 };
 
 struct PointLight{
 	vec3 position;
-
-	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
-
 	float constant;
+	vec3 ambient;
     float linear;
+	vec3 diffuse;
     float quadratic;
+	vec3 specular;
 };
 
 struct DirectionalLight{
 	vec3 direction;
-
+	float constant;
 	vec3 ambient;
+    float linear;
 	vec3 diffuse;
+    float quadratic;
 	vec3 specular;
 
-	float constant;
-    float linear;
-    float quadratic;
 };
 
 in vec2 TextureCoord;

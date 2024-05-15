@@ -1,27 +1,56 @@
 #ifndef LIGHTS_H
 #define LIGHTS_H
 
+#define MAX_POINT_LIGHTS 10
+#define MAX_SPOTLIGHTS 10
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+
 typedef struct DirectionalLight {
 	glm::vec3 direction;
-	glm::vec3 ambient, diffuse, specular;
-	float constant, linear, quadratic;
+	float constant;
+	glm::vec3 ambient;
+	float linear;
+	glm::vec3 diffuse;
+	float quadratic;
+	glm::vec3 specular;
+	float Ka;
+
 } DirectionalLight;
 
 typedef struct PointLight {
 	glm::vec3 position;
-	glm::vec3 ambient, diffuse, specular;
-	float constant, linear, quadratic;
+	float constant;
+	glm::vec3 ambient;
+	float linear;
+	glm::vec3 diffuse;
+	float quadratic;
+	glm::vec3 specular;
+	float Ka;
 } PointLight;
 
 typedef struct Spotlight {
-	glm::vec3 position, direction;
-	float cutoff, outerCutoff;
-	glm::vec3 ambient, diffuse, specular;
-	float constant, linear, quadratic;
+	glm::vec3 position;
+	float cutoff;
+	glm::vec3 direction;
+	float outerCutoff;
+	glm::vec3 ambient;
+	float constant;
+	glm::vec3 diffuse;
+	float linear;
+	glm::vec3 specular;
+	float quadratic;
 } Spotlight;
+
+typedef struct Lights {
+	DirectionalLight directionalLight;
+	PointLight pointLights[MAX_POINT_LIGHTS];
+	Spotlight spotlights[MAX_SPOTLIGHTS];
+	int nrOfSpotlights;
+	int nrOfPointLights;
+} Lights;
 
 #endif
