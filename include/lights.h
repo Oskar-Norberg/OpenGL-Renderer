@@ -4,10 +4,9 @@
 #define MAX_POINT_LIGHTS 10
 #define MAX_SPOTLIGHTS 10
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
+#include <glm/vec4.hpp>
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 
 typedef struct DirectionalLight {
 	alignas(sizeof(glm::vec4)) glm::vec3 direction;

@@ -1,6 +1,9 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <glm/vec4.hpp>
+#include <glm/vec3.hpp>
+
 #include "shader.h"
 
 #include "shaderManager.h"

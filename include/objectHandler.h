@@ -1,6 +1,8 @@
 #ifndef OBJECT_HANDLER_H
 #define OBJECT_HANDLER_H
 
+#include <glm/vec3.hpp>
+
 #include "shader.h"
 #include "model.h"
 #include "object.h"

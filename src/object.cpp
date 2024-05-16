@@ -1,5 +1,8 @@
 #include "../include/object.h"
 
+#include <glm/mat4x4.hpp>
+#include <glm/ext/matrix_transform.hpp>
+
 Object::Object(glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees, Model* model, Shader* shader) {
 	this->position = position;
 

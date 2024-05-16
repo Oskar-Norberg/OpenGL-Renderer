@@ -1,5 +1,7 @@
 #include "../include/scene.h"
 
+#include <glad/glad.h>
+
 Scene::Scene(glm::vec4 backgroundColor) {
 	this->backgroundColor = backgroundColor;
 }

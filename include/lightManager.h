@@ -3,6 +3,9 @@
 
 #include "lights.h" 
 
+#include <glm/vec3.hpp>
+
+
 class LightManager {
 public:
 	DirectionalLight* setSun(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular);

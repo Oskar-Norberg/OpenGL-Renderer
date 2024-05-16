@@ -93,7 +93,7 @@ GLFWwindow* initializeOpenGL() {
 void run(GLFWwindow* window) {
 	Scene scene;
 
-	scene.setSun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(0.75f));
+	scene.setSun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(0.75f));
 	//scene.setSun(glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f));
 
 	Shader* textureShader = scene.createShader("assets/shaders/texture/texture.vs", "assets/shaders/texture/texture.fs");

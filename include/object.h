@@ -1,10 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
+#include <glm/vec3.hpp>
 #include "model.h"
 
 #include <string>

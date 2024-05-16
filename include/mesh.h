@@ -3,12 +3,11 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <glad/glad.h> // holds all OpenGL type declarations
 #include <assimp/material.h>
 
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 
 #include "shader.h"
 

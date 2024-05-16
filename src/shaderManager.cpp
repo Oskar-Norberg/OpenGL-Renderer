@@ -4,10 +4,6 @@
 
 #include "../include/GLSLBufferObjects.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 ShaderManager::ShaderManager() {
 	glGenBuffers(1, &viewProjectionUBO);
 	glBindBuffer(GL_UNIFORM_BUFFER, viewProjectionUBO);

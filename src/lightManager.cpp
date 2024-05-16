@@ -1,5 +1,7 @@
 #include "../include/lightManager.h"
 
+#include <glm/trigonometric.hpp>
+
 DirectionalLight* LightManager::setSun(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular) {
 	lights.directionalLight = { direction, ambient, diffuse, specular };
 	return &(lights.directionalLight);

@@ -1,10 +1,16 @@
 #include "../include/model.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+
+#include <glad/glad.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
+
 #include <iostream>
 
 Model::Model(std::string const& path)
