@@ -155,6 +155,7 @@
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\object.cpp" />
     <ClCompile Include="src\objectHandler.cpp" />
+    <ClCompile Include="src\postProcessingManager.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\shaderManager.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="include\modelLoader.h" />
     <ClInclude Include="include\object.h" />
     <ClInclude Include="include\objectHandler.h" />
+    <ClInclude Include="include\postProcessingManager.h" />
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\shader.h" />
     <ClInclude Include="include\shaderManager.h" />

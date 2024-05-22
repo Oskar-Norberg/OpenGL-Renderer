@@ -124,6 +124,10 @@ void run(GLFWwindow* window) {
 	//PointLight* pointlightTwo = scene.createPointLight(glm::vec3(0.0f, 0.75f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 	Spotlight* spotlight = scene.createSpotlight(glm::vec3(-4.0f, 8.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f), 12.5f, 15.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f);
 
+	Shader* postProcessingShader = scene.createShader("assets/shaders/postProcessing/postProcess.vs", "assets/shaders/postProcessing/drawTexture/drawTexture.fs");
+	
+	scene.createPostProcessingEffect(postProcessingShader);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();

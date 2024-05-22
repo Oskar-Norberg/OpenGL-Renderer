@@ -1,7 +1,6 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <glm/vec4.hpp>
 #include <glm/vec3.hpp>
 
 #include "shader.h"
@@ -9,8 +8,9 @@
 #include "shaderManager.h"
 #include "modelLoader.h"
 #include "objectHandler.h"
-#include "lightManager.h"
+#include "postProcessingManager.h"
 
+#include "lightManager.h"
 #include "lights.h"
 
 class Scene {
@@ -20,6 +20,8 @@ public:
 	Object* createObject(bool transparent, std::string modelPath, glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees, Shader* shader);
 
 	Shader* createShader(std::string vertexPath, std::string fragmentPath);
+
+	void createPostProcessingEffect(Shader* shader);
 
 	void draw(Camera* camera);
 
@@ -34,6 +36,8 @@ private:
 	ModelLoader modelLoader;
 	ObjectHandler objectHandler;
 	LightManager lightManager;
+
+	PostProcessingManager *postProcessingManager;
 
 	glm::vec4 backgroundColor;
 };
