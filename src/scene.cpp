@@ -22,11 +22,24 @@ Shader* Scene::createShader(std::string vertexPath, std::string fragmentPath) {
 	return shaderManager.createShader(vertexPath, fragmentPath);
 }
 
+void Scene::createPostProcessingEffect(Shader* shader) {
+	postProcessingManager = new PostProcessingManager(shader);
+}
+
 void Scene::draw(Camera* camera) {
+	glBindFramebuffer(GL_FRAMEBUFFER, postProcessingManager->getFrameBuffer());
 	glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+
 	shaderManager.setCameraMatrices(camera);
 	objectHandler.draw((*camera).getPosition());
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	postProcessingManager->drawQuad();
 }
 
 PointLight* Scene::createPointLight(glm::vec3 position, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant, float linear, float quadratic) {
