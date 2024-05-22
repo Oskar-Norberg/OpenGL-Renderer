@@ -1,4 +1,21 @@
 #include "../include/postProcessingManager.h"
+
+// Find some way to make this class agnostic to OpenGL. Use object.h somehow
+
+// Quad Vertices - Might profit from being saved elsewhere, create a meshdata.h perhaps
+// Could also hold other common mesh types vertices
+
+float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+	// positions   // texCoords
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	-1.0f, -1.0f,  0.0f, 0.0f,
+	 1.0f, -1.0f,  1.0f, 0.0f,
+
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	 1.0f, -1.0f,  1.0f, 0.0f,
+	 1.0f,  1.0f,  1.0f, 1.0f
+};
+
 PostProcessingManager::PostProcessingManager(Shader* shader, int windowWidth, int windowHeight) {
 	this->shader = shader;
 
@@ -40,4 +57,35 @@ PostProcessingManager::~PostProcessingManager() {
 	glDeleteFramebuffers(1, &framebuffer);
 	glDeleteTextures(1, &textureColorbuffer);
 	glDeleteRenderbuffers(1, &depthStencilRBO);
+}
+
+void PostProcessingManager::setupQuad() {
+	glGenVertexArrays(1, &quadVAO);
+	glGenBuffers(1, &quadVBO);
+
+	glBindVertexArray(quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+
+	// Position
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+
+	// Texture coord
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+}
+
+void PostProcessingManager::drawQuad() {
+	glBindVertexArray(quadVAO);
+	shader->use();
+	shader->setInt("screenTexture", 0);
+	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
+}
+
+unsigned int PostProcessingManager::getFrameBuffer() {
+	return framebuffer;
 }
