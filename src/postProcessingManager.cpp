@@ -35,3 +35,9 @@ PostProcessingManager::PostProcessingManager(Shader* shader, int windowWidth, in
 
 	setupQuad();
 }
+
+PostProcessingManager::~PostProcessingManager() {
+	glDeleteFramebuffers(1, &framebuffer);
+	glDeleteTextures(1, &textureColorbuffer);
+	glDeleteRenderbuffers(1, &depthStencilRBO);
+}
