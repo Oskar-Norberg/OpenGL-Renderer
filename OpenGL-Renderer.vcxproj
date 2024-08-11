@@ -76,8 +76,8 @@
     <LibraryPath>C:\Users\skummis\OpenGL\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\skummis\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\skummis\OpenGL\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
   </PropertyGroup>
@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\OpenGL\glad\src\glad.c" />
+    <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\lightManager.cpp" />
